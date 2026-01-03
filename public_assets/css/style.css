@@ -1,0 +1,186 @@
+/* =================================================
+   Digital Garden — Clean Dashboard Styles
+   ================================================= */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --green: #198754;
+  --green-dark: #146c43;
+  --green-soft: #e9f5ee;
+
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-500: #6c757d;
+  --gray-900: #212529;
+
+  --radius: 0.5rem;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--gray-100);
+  color: var(--gray-900);
+  line-height: 1.6;
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.text-success {
+  color: var(--green) !important;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: #fff;
+  min-height: 100vh;
+  border-right: 1px solid var(--gray-200);
+  padding-top: 1rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  margin: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
+  color: var(--gray-900);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* ---------- Main Layout ---------- */
+main {
+  background: var(--gray-100);
+}
+
+/* ---------- Cards ---------- */
+.stat-card,
+.theme-card,
+.note-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover,
+.theme-card:hover,
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------- Theme Cards ---------- */
+.theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.theme-card h6 {
+  margin: 0;
+}
+
+/* ---------- Notes ---------- */
+.note-content {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 0.375rem;
+  font-weight: 500;
+}
+
+.btn-success {
+  background-color: var(--green);
+  border-color: var(--green);
+}
+
+.btn-success:hover {
+  background-color: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.6em;
+}
+
+/* ---------- Dropdown ---------- */
+.dropdown-menu {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Modal ---------- */
+.modal-header {
+  background: var(--green);
+  color: #fff;
+}
+
+.modal-header .btn-close {
+  filter: invert(1);
+}
+
+/* ---------- Utilities ---------- */
+.shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.shadow {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .sidebar {
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--gray-200);
+  }
+}
+
+/* ---------- Accessibility ---------- */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
