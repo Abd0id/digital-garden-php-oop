@@ -15,7 +15,7 @@ CREATE TABLE users (
 CREATE TABLE role_id (
     id INT PRIMARY KEY,
     name VARCHAR(100)
-)
+);
 
 
 CREATE TABLE themes (
