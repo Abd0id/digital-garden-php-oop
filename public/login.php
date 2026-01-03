@@ -115,7 +115,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
   <!-- Custom JS -->
-  <script src="../public_assets/index.js"></script>
+  <script src="../public_assets/js/index.js" defer></script>
 </body>
 
 </html>
