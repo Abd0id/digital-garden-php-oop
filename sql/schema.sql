@@ -1,29 +1,28 @@
 CREATE DATABASE digital_garden_oop;
 USE digital_garden_oop;
 
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE users (
-    id int AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100),
-    full_name VARCHAR(100) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    status ENUM('pending','active','blocked'),
+    status ENUM('pending','active','blocked') DEFAULT 'pending',
     role_id INT NOT NULL,
-    FOREIGN KEY(role_id) REFERENCES role(id)
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
-
-CREATE TABLE role_id (
-    id INT PRIMARY KEY,
-    name VARCHAR(100)
-);
-
 
 CREATE TABLE themes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     name VARCHAR(50) NOT NULL,
     color VARCHAR(7) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -33,7 +32,7 @@ CREATE TABLE notes (
     title VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     importance TINYINT NOT NULL CHECK (importance BETWEEN 1 AND 5),
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (theme_id) REFERENCES themes(id) ON DELETE CASCADE
 );
 
@@ -45,7 +44,7 @@ CREATE TABLE tags (
 CREATE TABLE theme_tags (
     theme_id INT NOT NULL,
     tag_id INT NOT NULL,
-    PRIMARY KEY(theme_id, tag_id),
-    FOREIGN KEY(theme_id) REFERENCES themes(id) ON DELETE CASCADE,
-    FOREIGN KEY(tag_id) REFERENCES tags(id) ON DELETE CASCADE
+    PRIMARY KEY (theme_id, tag_id),
+    FOREIGN KEY (theme_id) REFERENCES themes(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
