@@ -41,7 +41,7 @@ unset($_SESSION['form_errors']);
 
             <!-- Alert Messages (Hidden by default, shown by PHP) -->
             <?php foreach ($form_errors as $err): ?>
-              <div id="alertContainer"><?= htmlspecialchars($err) ?></div>
+              <div class="invalid-feedback" id="alertContainer"><?= htmlspecialchars($err) ?></div>
             <?php endforeach; ?>
 
             <!-- Login Form -->

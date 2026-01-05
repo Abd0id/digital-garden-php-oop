@@ -39,7 +39,9 @@ unset($_SESSION['form_errors']);
             </div>
 
             <!-- Alert Container -->
-            <div id="alertContainer"></div>
+            <?php foreach ($form_errors as $err): ?>
+              <div class="invalid-feedback" id="alertContainer"><?= htmlspecialchars($err) ?></div>
+            <?php endforeach; ?>
 
             <!-- Registration Form -->
             <form id="registerForm" method="POST" action="../includes/auth.php" novalidate>

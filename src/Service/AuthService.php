@@ -14,19 +14,21 @@ class AuthService
 
         $user = new User($fullName, $email);
         $user->setPassword($hashedPassword);
-        $user = $userRepository->create($user);
-        if ($user) {
-
-            echo 'user created';
+        try {
+            $user = $userRepository->create($user);
+        } catch (throwable $error) {
+            $_SESSION['form_errors'][] = 'Error creating user';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
         }
     }
 
     public static function redirect(string $role)
     {
         if ($role === 'admin') {
-            return header('Location: ./admin/dashboard.php');
+            return header('Location: ../admin/dashboard.php');
         } else if ($role === 'user') {
-            return header('Location: dashboard.php');
+            return header('Location: ../public/dashboard.php');
         }
     }
 
@@ -39,20 +41,36 @@ class AuthService
         $password = $post['password'] ?? '';
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            $GLOBALS['loginErrors'][] = "Email invalide";
+            $_SESSION['form_errors'][] = "Email invalide";
+        ;
         if (strlen($password) < 6)
-            $GLOBALS['loginErrors'][] = "Mot de passe trop court";
+            $_SESSION['form_errors'][] = "Mot de passe trop court";
 
-        if (!empty($GLOBALS['loginErrors'])) {
+        if (!empty($_SESSION['form_errors'])) {
             return null;
         }
-
-        $user = $userRepository->findByEmail($email);
-
+        try {
+            $user = $userRepository->findByEmail($email);
+        } catch (throwable $error) {
+            $_SESSION['form_errors'][] = 'Error creating user';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         if (!$user || !password_verify($password, $user->getPassword())) {
-            $GLOBALS['loginErrors'][] = "Email ou mot de passe incorrect";
+            $_SESSION['form_errors'][] = "Email ou mot de passe incorrect";
             return null;
         }
-        return $user;
+        
+        if ($user->getStatus() == 'pending') {
+            $_SESSION['form_errors'][] = "Awaiting Admin approval";
+            return null;
+        } else if ($user->getStatus() == 'pending') {
+            $_SESSION['form_errors'][] = "Contact administation to solve this problem";
+            return null;
+        } else {
+            return $user;
+        }
+
+
     }
 }
