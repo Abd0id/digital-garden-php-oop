@@ -1,3 +1,9 @@
+<?php
+require_once __DIR__ . '/../includes/auth.php';
+$form_errors = $_SESSION['form_errors'] ?? [];
+unset($_SESSION['form_errors']);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -36,7 +42,7 @@
             <div id="alertContainer"></div>
 
             <!-- Login Form -->
-            <form id="loginForm" method="POST" action="" novalidate>
+            <form id="loginForm" method="POST" action="../includes/auth.php" novalidate>
               <!-- Email -->
               <div class="mb-3">
                 <label for="email" class="form-label">
