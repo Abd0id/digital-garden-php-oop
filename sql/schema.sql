@@ -12,7 +12,7 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     status ENUM('pending','active','blocked') DEFAULT 'pending',
-    role_id INT NOT NULL DEFAULT 2,
+    role_id INT NOT NULL DEFAULT 1,
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
@@ -23,6 +23,7 @@ CREATE TABLE themes (
     color VARCHAR(7) NOT NULL,
     limit INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    notes_limit INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

@@ -1,38 +1,43 @@
 <?php
 
-require_once __DIR__."/../Repository/UserRepository.php";
-
-$GLOBALS['loginErrors'] = [];
-
-function redirect(string $role)
+class AuthService
 {
-    if ($role === 'admin') {
-        return header('Location: ./admin/dashboard.php');
-    } else if ($role === 'user') {
-        return header('Location: dashboard.php');
-    }
-}
+    public static function register(string $fullName, string $email, string $password): bool
+    {
+        $db = new Database();
+        $con = $db->getConnection();
 
-function login(array $post): ?User
-{
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $userRepository = new UserRepository();
+        $stmt = $con->prepare(
+            'INSERT INTO users (full_name, email, password_hash)
+             VALUES (:full_name, :email, :password_hash)'
+        );
 
-    $email = $post['email'] ?? '';
-    $password = $post['password'] ?? '';
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $GLOBALS['loginErrors'][] = "Email invalide";
-    if (strlen($password) < 6) $GLOBALS['loginErrors'][] = "Mot de passe trop court";
-
-    if (!empty($GLOBALS['loginErrors'])) {
-        return null;
+        return $stmt->execute([
+            ':full_name' => $fullName,
+            ':email' => $email,
+            ':password_hash' => $hashedPassword
+        ]);
     }
 
-    $user = $userRepository->findByEmail($email);
+    public static function login(string $email, string $password): ?array
+    {
+        $db = new Database();
+        $con = $db->getConnection();
+        $stmt = $con->prepare(
+            'SELECT id, full_name, password_hash, role_id
+             FROM users
+             WHERE email = :email'
+        );
 
-    if (!$user || !password_verify($password, $user->getPassword())) {
-        $GLOBALS['loginErrors'][] = "Email ou mot de passe incorrect";
-        return null;
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user || !password_verify($password, $user['password_hash'])) {
+            return null;
+        }
+
+        return $user;
     }
-    return $user;
 }

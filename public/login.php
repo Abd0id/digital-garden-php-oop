@@ -1,17 +1,7 @@
-<?php session_start();
-require_once(__DIR__ . '/../src/Service/AuthService.php');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $result = login($_POST);
-  if ($result) {
-    $_SESSION['userId'] = $result->getId();
-    $_SESSION['userEmail'] = $result->getEmail();
-    $_SESSION['userRole'] = $result->getRole();
-    redirect($_SESSION['userRole']);
-    exit;
-  }
-}
-
+<?php
+require_once __DIR__ . '/../includes/auth.php';
+$form_errors = $_SESSION['form_errors'] ?? [];
+unset($_SESSION['form_errors']);
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endforeach; ?>
 
             <!-- Login Form -->
-            <form id="loginForm" method="POST" action="" novalidate>
+            <form id="loginForm" method="POST" action="../includes/auth.php" novalidate>
               <!-- Email -->
               <div class="mb-3">
                 <label for="email" class="form-label">
