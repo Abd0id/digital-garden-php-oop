@@ -22,7 +22,7 @@ unset($_SESSION['form_errors']);
 </head>
 
 <body class="auth-page">
-  <?php include "../includes/header.php" ?>
+  <?php include __DIR__ . "/../includes/header.php" ?>
 
   <div class="container my-5">
     <div class="row justify-content-center">
@@ -39,7 +39,9 @@ unset($_SESSION['form_errors']);
             </div>
 
             <!-- Alert Messages (Hidden by default, shown by PHP) -->
-            <div id="alertContainer"></div>
+            <?php foreach ($GLOBALS['loginErrors'] as $err): ?>
+              <div id="alertContainer"><?= htmlspecialchars($err) ?></div>
+            <?php endforeach; ?>
 
             <!-- Login Form -->
             <form id="loginForm" method="POST" action="../includes/auth.php" novalidate>
@@ -114,7 +116,7 @@ unset($_SESSION['form_errors']);
     </div>
   </div>
 
-  <?php include "../includes/footer.php" ?>
+  <?php include __DIR__ . "/../includes/footer.php" ?>
 
 
   <!-- Bootstrap 5 JS -->

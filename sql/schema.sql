@@ -21,6 +21,7 @@ CREATE TABLE themes (
     user_id INT NOT NULL,
     title VARCHAR(50) NOT NULL,
     color VARCHAR(7) NOT NULL,
+    limit INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     notes_limit INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
