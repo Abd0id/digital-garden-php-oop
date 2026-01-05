@@ -43,25 +43,39 @@ class UserRepository
     public function create(User $user)
     {
 
-        $query = "INSERT INTO users(full_name,email,password_hash,status) VALUES(:full_name, :email, :password, :status)";
-
         try {
+            $query = "INSERT INTO roles(name) VALUES(:name)";
+
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
-                ":full_name" => $user->getFullName(),
-                ":email" => $user->getEmail(),
-                ":password" => $user->getPassword(),
-                ":status" => $user->getStatus()
+                ":name" => $user->getRole(),
             ]);
 
-            (int) $id = $this->conn->lastInsertId();
+            (int) $role_id = $this->conn->lastInsertId();
 
-            if ($id) {
-                $user->setId($id);
-                return $user;
+            $query = "INSERT INTO users(full_name,email,password_hash,status,role_id) VALUES(:full_name, :email, :password, :status,:role_id)";
+
+            try {
+                $stmt = $this->conn->prepare($query);
+                $stmt->execute([
+                    ":full_name" => $user->getFullName(),
+                    ":email" => $user->getEmail(),
+                    ":password" => $user->getPassword(),
+                    ":status" => $user->getStatus(),
+                    ":role_id" => $role_id
+                ]);
+
+                (int) $id = $this->conn->lastInsertId();
+
+                if ($id) {
+                    $user->setId($id);
+                    return $user;
+                }
+            } catch (\Throwable $th) {
+                echo "user creation error" . $th->getMessage();
             }
         } catch (\Throwable $th) {
-            echo "user creation error";
+            //throw $th;
         }
     }
 

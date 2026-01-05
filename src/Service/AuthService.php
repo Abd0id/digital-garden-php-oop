@@ -1,26 +1,24 @@
 <?php
 
-require_once __DIR__."/../Repository/UserRepository.php";
+require_once __DIR__ . "/../Repository/UserRepository.php";
+require_once __DIR__ . "/../Entity/User.php";
 
 class AuthService
 {
-    public static function register(string $fullName, string $email, string $password): bool
+    public static function register( $fullName,  $email,  $password)
     {
+
+        $userRepository = new UserRepository();
+
         $db = new Database();
         $con = $db->getConnection();
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $con->prepare(
-            'INSERT INTO users (full_name, email, password_hash)
-             VALUES (:full_name, :email, :password_hash)'
-        );
-
-        return $stmt->execute([
-            ':full_name' => $fullName,
-            ':email' => $email,
-            ':password_hash' => $hashedPassword
-        ]);
+        $user = new User($fullName,$email);
+        $user->setPassword($hashedPassword);
+        $user = $userRepository->create($user);
+        echo 'user created';
     }
 
     public static function redirect(string $role)
@@ -40,8 +38,10 @@ class AuthService
         $email = $post['email'] ?? '';
         $password = $post['password'] ?? '';
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $GLOBALS['loginErrors'][] = "Email invalide";
-        if (strlen($password) < 6) $GLOBALS['loginErrors'][] = "Mot de passe trop court";
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+            $GLOBALS['loginErrors'][] = "Email invalide";
+        if (strlen($password) < 6)
+            $GLOBALS['loginErrors'][] = "Mot de passe trop court";
 
         if (!empty($GLOBALS['loginErrors'])) {
             return null;

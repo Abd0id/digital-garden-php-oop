@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../src/Service/AuthService.php';
 
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 
 
-    // REGISTER
     if (isset($_POST['fullname'])) {
 
         if (empty($_POST['fullname']) || empty($_POST['email']) || empty($_POST['password'])) {
@@ -40,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                     $_POST['password']
                 );
 
-                header('Location: ../public/login.php');
-                exit;
+                // header('Location: ../public/login.php');
+                // exit;
             } catch (Throwable $e) {
                 $form_errors[] = 'Email déjà utilisé';
             }
@@ -49,6 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     }
 
     $_SESSION['form_errors'] = $form_errors;
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
 }
