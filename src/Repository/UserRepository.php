@@ -36,7 +36,7 @@ class UserRepository
 
             return $user;
         } catch (\Throwable $th) {
-            echo " user search error ";
+            echo " user search error " . $th->getMessage();
         }
     }
 
