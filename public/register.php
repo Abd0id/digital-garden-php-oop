@@ -113,9 +113,8 @@ unset($_SESSION['form_errors']);
               </div>
 
               <!-- Submit Button -->
-              <button type="submit" class="btn btn-success w-100 py-2 mb-3">
-                <i class="bi bi-person-plus me-2"></i>Créer mon compte
-              </button>
+              <input type="submit" name="register" class="btn btn-success w-100 py-2 mb-3" value="register">
+
 
               <!-- Divider -->
               <div class="text-center text-muted my-3">
