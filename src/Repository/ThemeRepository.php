@@ -10,7 +10,8 @@ class ThemeRepository
 
     public function __construct()
     {
-        $this->conn = Database::getInstance()->getConnection();
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
     public function findAll(User $user)

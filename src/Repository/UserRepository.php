@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__."/../../config/database.php";
+require_once __DIR__ . "/../../config/database.php";
 
 class UserRepository
 {
@@ -10,7 +10,8 @@ class UserRepository
 
     public function __construct()
     {
-        $this->conn = Database::getInstance()->getConnection();
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
 

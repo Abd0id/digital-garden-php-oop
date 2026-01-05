@@ -10,7 +10,8 @@ class NoteRepository
 
     public function __construct()
     {
-        $this->conn = Database::getInstance()->getConnection();
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
     public function findAll(Theme $theme)
@@ -68,7 +69,7 @@ class NoteRepository
         }
     }
 
-    public function create(Note $note,Theme $theme)
+    public function create(Note $note, Theme $theme)
     {
         $query = "INSERT INTO notes(theme_id,title,content,importance)
         VALUES(:themeId, :title, :content, :importance)";
