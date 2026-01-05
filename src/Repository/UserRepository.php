@@ -36,14 +36,14 @@ class UserRepository
 
             return $user;
         } catch (\Throwable $th) {
-            echo " user search error ";
+            echo " user search error " . $th->getMessage();
         }
     }
 
     public function create(User $user)
     {
 
-        $query = "INSERT INTO users(full_name,email,password_hash,status) VALUES(:full_name, :email, :password, :status)";
+        $query = "INSERT INTO users(full_name,email,password_hash,status) VALUES(:full_name, :email, :password_hashed, :user_status)";
 
         try {
             $stmt = $this->conn->prepare($query);
@@ -51,7 +51,7 @@ class UserRepository
                 ":full_name" => $user->getFullName(),
                 ":email" => $user->getEmail(),
                 ":password" => $user->getPassword(),
-                ":status" => $user->getStatus()
+                ":user_status" => $user->getStatus()
             ]);
 
             (int) $id = $this->conn->lastInsertId();

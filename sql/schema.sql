@@ -3,7 +3,7 @@ USE digital_garden_oop;
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE users (
@@ -12,7 +12,7 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     status ENUM('pending','active','blocked') DEFAULT 'pending',
-    role_id INT NOT NULL DEFAULT 1,
+    role_id INT NOT NULL,
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 

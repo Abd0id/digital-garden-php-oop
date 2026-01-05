@@ -2,8 +2,7 @@
 
 require_once __DIR__."/../Repository/UserRepository.php";
 
-class AuthService
-{
+class AuthService{
     public static function register(string $fullName, string $email, string $password): bool
     {
         $db = new Database();

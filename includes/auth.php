@@ -8,18 +8,19 @@ session_start();
 $form_errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-  $result = AuthService::login($_POST);
-  if ($result) {
-    $_SESSION['userId'] = $result->getId();
-    $_SESSION['userEmail'] = $result->getEmail();
-    $_SESSION['userRole'] = $result->getRole();
-    AuthService::redirect($_SESSION['userRole']);
-    exit;
-  }
+    echo 'test ';
+    $result = AuthService::login($_POST);
+    var_dump($result);
+    if ($result) {
+        $_SESSION['userId'] = $result->getId();
+        $_SESSION['userEmail'] = $result->getEmail();
+        $_SESSION['userRole'] = $result->getRole();
+        AuthService::redirect($_SESSION['userRole']);
+        exit;
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
-
 
     // REGISTER
     if (isset($_POST['fullname'])) {
@@ -49,6 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     }
 
     $_SESSION['form_errors'] = $form_errors;
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit;
+    // header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // exit;
 }
