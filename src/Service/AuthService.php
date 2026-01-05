@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__."/../Repository/UserRepository.php";
+
 class AuthService
 {
     public static function register(string $fullName, string $email, string $password): bool
@@ -21,23 +23,36 @@ class AuthService
         ]);
     }
 
-    public static function login(string $email, string $password): ?array
+    public static function redirect(string $role)
     {
-        $db = new Database();
-        $con = $db->getConnection();
-        $stmt = $con->prepare(
-            'SELECT id, full_name, password_hash, role_id
-             FROM users
-             WHERE email = :email'
-        );
+        if ($role === 'admin') {
+            return header('Location: ./admin/dashboard.php');
+        } else if ($role === 'user') {
+            return header('Location: dashboard.php');
+        }
+    }
 
-        $stmt->execute([':email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    public static function login(array $post): ?User
+    {
 
-        if (!$user || !password_verify($password, $user['password_hash'])) {
+        $userRepository = new UserRepository();
+
+        $email = $post['email'] ?? '';
+        $password = $post['password'] ?? '';
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $GLOBALS['loginErrors'][] = "Email invalide";
+        if (strlen($password) < 6) $GLOBALS['loginErrors'][] = "Mot de passe trop court";
+
+        if (!empty($GLOBALS['loginErrors'])) {
             return null;
         }
 
+        $user = $userRepository->findByEmail($email);
+
+        if (!$user || !password_verify($password, $user->getPassword())) {
+            $GLOBALS['loginErrors'][] = "Email ou mot de passe incorrect";
+            return null;
+        }
         return $user;
     }
 }

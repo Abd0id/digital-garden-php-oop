@@ -7,6 +7,17 @@ session_start();
 
 $form_errors = [];
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+  $result = AuthService::login($_POST);
+  if ($result) {
+    $_SESSION['userId'] = $result->getId();
+    $_SESSION['userEmail'] = $result->getEmail();
+    $_SESSION['userRole'] = $result->getRole();
+    AuthService::redirect($_SESSION['userRole']);
+    exit;
+  }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // REGISTER

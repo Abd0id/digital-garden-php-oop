@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 $form_errors = $_SESSION['form_errors'] ?? [];
 unset($_SESSION['form_errors']);
+
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ unset($_SESSION['form_errors']);
             </div>
 
             <!-- Alert Messages (Hidden by default, shown by PHP) -->
-            <?php foreach ($GLOBALS['loginErrors'] as $err): ?>
+            <?php foreach ($form_errors as $err): ?>
               <div id="alertContainer"><?= htmlspecialchars($err) ?></div>
             <?php endforeach; ?>
 
@@ -82,10 +83,7 @@ unset($_SESSION['form_errors']);
               </div>
 
               <!-- Submit Button -->
-              <button type="submit" class="btn btn-success w-100 py-2 mb-3">
-                <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
-              </button>
-
+              <input type="submit" name="login" class="btn btn-success w-100 py-2 mb-3" value="login">
               <!-- Admin Login Link -->
               <div class="text-center mb-3">
                 <a href="admin/login.php" class="text-muted small text-decoration-none">
