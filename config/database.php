@@ -6,7 +6,7 @@ class Database
     private $host = "localhost";
     private $dbName = "digital_garden_oop";
     private $user = "root";
-    private $password = "root";
+    private $password = "";
 
     private PDO $conn;
 
