@@ -8,20 +8,20 @@ CREATE TABLE roles (
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     status ENUM('pending','active','blocked') DEFAULT 'pending',
-    role_id INT NOT NULL,
+    role_id INT NOT NULL DEFAULT 2,
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 CREATE TABLE themes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    title VARCHAR(50) NOT NULL,
     color VARCHAR(7) NOT NULL,
+    limit INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
