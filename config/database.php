@@ -6,7 +6,7 @@ class Database
     private $host = "localhost";
     private $dbName = "digital_garden_oop";
     private $user = "root";
-    private $password = "";
+    private $password = "root";
 
     private PDO $conn;
 
@@ -15,7 +15,7 @@ class Database
         try {
             $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbName;",$this->user,$this->password);
         } catch (Throwable $ex) {
-            echo 'database erreur';
+            echo 'database erreur'.$ex->getMessage();
         }
     }
 
