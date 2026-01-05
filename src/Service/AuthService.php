@@ -5,17 +5,20 @@ require_once __DIR__ . "/../Entity/User.php";
 
 class AuthService
 {
-    public static function register( $fullName,  $email,  $password)
+    public static function register($fullName, $email, $password)
     {
 
         $userRepository = new UserRepository();
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $user = new User($fullName,$email);
+        $user = new User($fullName, $email);
         $user->setPassword($hashedPassword);
         $user = $userRepository->create($user);
-        echo 'user created';
+        if ($user) {
+
+            echo 'user created';
+        }
     }
 
     public static function redirect(string $role)
