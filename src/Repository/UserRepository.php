@@ -14,6 +14,30 @@ class UserRepository
         $this->conn = $db->getConnection();
     }
 
+    public function findAll()
+    {
+
+        $query = "SELECT u.id,u.full_name,u.password_hash psswrd,u.email,u.status,r.name 'role'
+        FROM users u,roles r 
+        WHERE u.role_id = r.id";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            $objs = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $users = [];
+            foreach ($objs as $obj) {
+                $user = new User($obj->full_name, $obj->email, $obj->role, $obj->status);
+                $user->setPassword($obj->psswrd);
+                $user->setId($obj->id);
+                array_push($users,$user);
+            }
+            return $users;
+        } catch (\Throwable $th) {
+            echo " user search error " . $th->getMessage();
+        }
+    }
 
     public function findByEmail($email)
     {
