@@ -1,3 +1,19 @@
+<?php session_start();
+require_once(__DIR__ . '/../src/Service/AuthService.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $result = login($_POST);
+  if ($result) {
+    $_SESSION['userId'] = $result->getId();
+    $_SESSION['userEmail'] = $result->getEmail();
+    $_SESSION['userRole'] = $result->getRole();
+    redirect($_SESSION['userRole']);
+    exit;
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -16,7 +32,7 @@
 </head>
 
 <body class="auth-page">
-  <?php include "../includes/header.php" ?>
+  <?php include __DIR__ . "/../includes/header.php" ?>
 
   <div class="container my-5">
     <div class="row justify-content-center">
@@ -33,7 +49,9 @@
             </div>
 
             <!-- Alert Messages (Hidden by default, shown by PHP) -->
-            <div id="alertContainer"></div>
+            <?php foreach ($GLOBALS['loginErrors'] as $err): ?>
+              <div id="alertContainer"><?= htmlspecialchars($err) ?></div>
+            <?php endforeach; ?>
 
             <!-- Login Form -->
             <form id="loginForm" method="POST" action="" novalidate>
@@ -108,7 +126,7 @@
     </div>
   </div>
 
-  <?php include "../includes/footer.php" ?>
+  <?php include __DIR__ . "/../includes/footer.php" ?>
 
 
   <!-- Bootstrap 5 JS -->
