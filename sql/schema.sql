@@ -3,7 +3,7 @@ USE digital_garden_oop;
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE users (
