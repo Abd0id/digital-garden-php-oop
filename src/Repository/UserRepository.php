@@ -64,6 +64,31 @@ class UserRepository
         }
     }
 
+        public function findById($id)
+    {
+
+        $query = "SELECT u.id,u.full_name,u.password_hash psswrd,u.email,u.status,r.name 'role'
+        FROM users u,roles r 
+        WHERE u.role_id = r.id AND u.id = :id";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                ":id" => $id
+            ]);
+
+            $obj = $stmt->fetch(PDO::FETCH_OBJ);
+
+            $user = new User($obj->full_name, $obj->email, $obj->role, $obj->status);
+            $user->setPassword($obj->psswrd);
+            $user->setId($obj->id);
+
+            return $user;
+        } catch (\Throwable $th) {
+            echo " user search error " . $th->getMessage();
+        }
+    }
+
     public function create(User $user)
     {
 

@@ -5,6 +5,16 @@ session_start();
 
 $form_errors = [];
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deconnect'])) {
+    session_destroy();
+    header('Location:  ../public/index.php');
+}
+
+if (isset($_SESSION['userId'])) {
+    AuthService::redirect($_SESSION['userRole']);
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $result = AuthService::login($_POST);
     if ($result) {
@@ -39,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 
             header('Location: ../public/login.php');
             exit;
-
         } catch (Throwable $e) {
             $form_errors[] = 'Email déjà utilisé';
         }

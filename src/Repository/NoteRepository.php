@@ -1,6 +1,8 @@
 <?php
 
 require_once "../config/database.php";
+require_once "../config/database.php";
+
 
 class NoteRepository
 {
@@ -59,11 +61,11 @@ class NoteRepository
 
             $obj = $stmt->fetch(PDO::FETCH_OBJ);
 
-            $theme = new Theme($obj->title, $obj->color, $obj->limit);
-            $theme->setId($obj->id);
-            $theme->setCreatedAt($obj->created_at);
+            $note = new Note($obj->title, $obj->importance, $obj->content);
+            $note->setId($obj->id);
+            $note->setCreatedAt($obj->created_at);
 
-            return $theme;
+            return $note;
         } catch (\Throwable $th) {
             echo " theme search error ";
         }

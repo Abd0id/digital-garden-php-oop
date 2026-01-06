@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . "/../Repository/UserRepository.php";
-require_once __DIR__ . "/../Entity/User.php";
 
 class AuthService
 {

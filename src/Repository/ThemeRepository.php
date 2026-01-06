@@ -116,7 +116,7 @@ class ThemeRepository
     }
 
 
-    public function delete(Theme $theme)
+    public function delete($id)
     {
 
         $query = "DELETE FROM themes WHERE id=:id";
@@ -124,8 +124,7 @@ class ThemeRepository
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->execute([
-                ":id" => $theme->getId(),
-
+                ":id" => $id
             ]);
         } catch (\Throwable $th) {
             echo " theme delete error";

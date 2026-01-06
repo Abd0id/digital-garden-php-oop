@@ -38,7 +38,7 @@
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+        <li><a class="dropdown-item text-danger" href="digital-garden-php-oop/includes/auth.php"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
       </ul>
     </div>
   </nav>
