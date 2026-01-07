@@ -5,7 +5,7 @@ session_start();
 
 $form_errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deconnect'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['deconnect'])) {
     session_unset();
     session_destroy();
     header('Location:  ../public/index.php');
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deconnect'])) {
 
 if (isset($_SESSION['userId'])) {
     AuthService::redirect($_SESSION['userRole']);
-    exit();
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
