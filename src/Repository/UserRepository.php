@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ ."/../Entity/User.php";
 
 class UserRepository
 {
@@ -31,7 +32,7 @@ class UserRepository
                 $user = new User($obj->full_name, $obj->email, $obj->role, $obj->status);
                 $user->setPassword($obj->psswrd);
                 $user->setId($obj->id);
-                array_push($users,$user);
+                array_push($users, $user);
             }
             return $users;
         } catch (\Throwable $th) {
@@ -64,7 +65,7 @@ class UserRepository
         }
     }
 
-        public function findById($id)
+    public function findById($id)
     {
 
         $query = "SELECT u.id,u.full_name,u.password_hash psswrd,u.email,u.status,r.name 'role'

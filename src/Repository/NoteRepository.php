@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
-require_once "../Entity/Note.php";
+require_once __DIR__ ."/../Entity/Note.php";
 
 
 class NoteRepository
