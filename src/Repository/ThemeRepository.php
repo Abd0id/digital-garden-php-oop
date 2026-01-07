@@ -1,6 +1,7 @@
 <?php
 
-require_once "../config/database.php";
+require_once __DIR__ . "/../../config/database.php";
+require_once "../Entity/Theme.php";
 
 class ThemeRepository
 {
@@ -110,6 +111,7 @@ class ThemeRepository
                 ":color" => $theme->getColor(),
                 ":limit" => $theme->getLimit()
             ]);
+            return $theme;
         } catch (\Throwable $th) {
             echo "Theme update error";
         }

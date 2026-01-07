@@ -50,7 +50,7 @@ class GardenService
         $themeRepository = new ThemeRepository();
 
         $theme = $themeRepository->findById($id);
-        $theme = $themeRepository->delete($theme);
+        $themeRepository->delete($theme);
     }
 
         public static function getAllThemenotes($id)
@@ -96,6 +96,6 @@ class GardenService
         $noteRepository = new noteRepository();
 
         $note = $noteRepository->findById($id);
-        $note = $noteRepository->delete($note);
+        $noteRepository->delete($note);
     }
 }

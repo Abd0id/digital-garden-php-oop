@@ -1,7 +1,7 @@
 <?php
 
-require_once "../config/database.php";
-require_once "../config/database.php";
+require_once __DIR__ . "/../../config/database.php";
+require_once "../Entity/Note.php";
 
 
 class NoteRepository
@@ -112,6 +112,7 @@ class NoteRepository
                 ":content" => $note->getContent(),
                 ":importance" => $note->getImportance()
             ]);
+            return $note;
         } catch (\Throwable $th) {
             echo "Note update error";
         }

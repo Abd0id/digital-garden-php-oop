@@ -1,6 +1,5 @@
 <?php
-require_once "../src/Entity/User.php";
-include "../src/Repository/UserRepository.php";
+include "../src/Service/AdminService.php";
 
 ?>
 <!DOCTYPE html>
@@ -52,8 +51,9 @@ include "../src/Repository/UserRepository.php";
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item text-danger" href="../logout.php"><i
+                            <li><a class="dropdown-item text-danger" href="../includes/auth.php?deconnect=deconnect"><i
                                         class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+
                         </ul>
                     </li>
                 </ul>
@@ -200,8 +200,8 @@ include "../src/Repository/UserRepository.php";
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $userRepository = new UserRepository();
-                                        $users = $userRepository->findAll();
+                                        $adminService = new AdminService();
+                                        $users = $adminService->findAllUsers();
                                         foreach ($users as $user):
                                             ?>
                                             <tr>
@@ -217,7 +217,6 @@ include "../src/Repository/UserRepository.php";
                                                     <?= htmlspecialchars($user->getEmail()) ?>
                                                 </td>
                                                 <td><small class="text-muted">--</small></td>
-                                                <!-- Replace with date if available -->
                                                 <td>
                                                     <?php
                                                     $status = $user->getStatus();
@@ -228,11 +227,12 @@ include "../src/Repository/UserRepository.php";
                                                     </span>
                                                 </td>
                                                 <td class="text-end">
-                                                    <button class="btn btn-sm btn-success" title="Valider">
-                                                        <i class="bi bi-check-lg"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" title="Bloquer">
-                                                        <i class="bi bi-x-lg"></i>
+                                                    <input name="valider" value="<?= $user->getId() ?>" type="submit"
+                                                        class="btn btn-sm btn-success" title="Valider">
+                                                    <i class="bi bi-check-lg"></i>
+                                                    <input name="bloquer" type="submit" class="btn btn-sm btn-danger"
+                                                        title="Bloquer">
+                                                    <i class="bi bi-x-lg"></i>
                                                     </button>
                                                 </td>
                                             </tr>

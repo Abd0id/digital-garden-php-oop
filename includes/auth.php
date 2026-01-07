@@ -6,8 +6,10 @@ session_start();
 $form_errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['deconnect'])) {
+    session_unset();
     session_destroy();
     header('Location:  ../public/index.php');
+    exit;
 }
 
 if (isset($_SESSION['userId'])) {
@@ -46,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 trim($_POST['email']),
                 $_POST['password']
             );
-
             header('Location: ../public/login.php');
             exit;
         } catch (Throwable $e) {
