@@ -1,4 +1,13 @@
-<?php session_start(); ?>
+<?php 
+require_once __DIR__ . "/../src/Service/GardenService.php";
+session_start();
+$themes = GardenService::getAllUserThemes($_SESSION['userId']);
+foreach($themes as $theme){
+  $notes = GardenService::getAllThemenotes($theme->getId());
+  $theme->setNotes($notes);
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,7 +47,7 @@
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item text-danger" href="../includes/auth.php?deconnect=deconnect"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+        <li><a class="dropdown-item text-danger" href="digital-garden-php-oop/includes/auth.php" name="deconnect"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
       </ul>
     </div>
   </nav>
@@ -105,37 +114,42 @@
         </div>
 
         <!-- Themes -->
-        <h5 class="fw-bold mb-3">Thèmes récents</h5>
+        <h5 class="fw-bold mb-3">Thèmes</h5>
+
         <div class="row g-3 mb-4">
           <div class="col-md-6 col-lg-4">
-            <div class="theme-card">
+            <?php foreach ($themes as $theme): ?>
+            <div style="background-color: <?=$theme->getColor()?>;" class="theme-card">
               <div class="theme-header">
-                <h6 class="fw-bold mb-0">Développement Web</h6>
+                <h6 class="fw-bold mb-0"><?=$theme->getTitle()?></h6>
                 <div>
                   <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
                   <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
                 </div>
               </div>
-              <small class="text-muted">8 notes</small>
+              <small class="text-muted"><?=count($theme->getNotes())?> Notes</small>
             </div>
+            <?php endforeach; ?>
           </div>
         </div>
-
         <!-- Notes -->
-        <h5 class="fw-bold mb-3">Notes récentes</h5>
+        <h5 class="fw-bold mb-3">Notes</h5>
         <div class="row g-3">
           <div class="col-md-6">
+          <?php foreach ($themes as $theme): ?>
+            <?php foreach ($theme->getNotes() as $note): ?>
             <div class="note-card">
               <div class="d-flex justify-content-between mb-1">
-                <strong>Introduction à PHP 8</strong>
+                <strong><?=$note->getTitle()?></strong>
                 <span class="badge bg-success">Web</span>
               </div>
-              <p class="note-content">Named arguments, union types, match expression…</p>
+              <p class="note-content"><?=$note->getContent()?></p>
               <small class="text-muted">il y a 2h</small>
             </div>
+             <?php endforeach; ?>
+            <?php endforeach; ?>
           </div>
         </div>
-
       </main>
     </div>
   </div>
