@@ -11,7 +11,7 @@ class UserRepository
 
     public function __construct()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $this->conn = $db->getConnection();
     }
 

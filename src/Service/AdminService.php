@@ -24,4 +24,30 @@ class AdminService
 
         return $users;
     }
+
+    public static function getStatistics()
+    {
+        $userRepository = new UserRepository();
+        $themeRepository = new ThemeRepository();
+        $noteRepository = new NoteRepository();
+
+        $users = $userRepository->findAll();
+        $blocked = array_filter($users,function ($user) {return $user->getStatus() == 'blocked';});
+        $active = array_filter($users,function ($user) {return $user->getStatus() == 'active';});
+        $pending = array_filter($users,function ($user) {return $user->getStatus() == 'pending';});
+        $themes = $themeRepository->findAllThemes();
+        $notes = $noteRepository->findAllNotes();
+
+        $statistics = [
+            "totalUsers" => count($users),
+            "blockedUsers" => count($blocked),
+            "activeUsers" => count($active),
+            "pendingUsers" => count($pending),
+            "totalThemes" => count($themes),
+            "totalNotes" => count($notes)
+        ];
+
+        return $statistics;
+    }
+    
 }

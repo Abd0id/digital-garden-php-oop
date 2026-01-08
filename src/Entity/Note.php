@@ -24,6 +24,7 @@ class Note
     public function getTitle(){return $this->title;}
     public function getImportance(){return $this->importance;}
     public function getContent(){return $this->content;}
+    public function getCreatedAt(){return $this->createdAt;}
     // public function getThemeId(){return $this->themeId;}
 
     public function setId($id){$this->id = $id;}

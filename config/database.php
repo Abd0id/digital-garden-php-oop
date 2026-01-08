@@ -8,12 +8,14 @@ class Database
     private $user = "root";
     private $password = "root";
 
-    private PDO $conn;
+    private static ?Database $instance = null;
 
-    public function __construct()
+    private PDO $connection;
+
+    private function __construct()
     {
         try {
-            $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbName;",$this->user,$this->password);
+            $this->connection = new PDO("mysql:host=$this->host;dbname=$this->dbName;",$this->user,$this->password);
         } catch (Throwable $ex) {
             echo 'database erreur'.$ex->getMessage();
         }
@@ -21,7 +23,20 @@ class Database
 
 
 
-    public function getConnection(){ return $this->conn; }
+        public static function getInstance(): ?Database
+    {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+
+        return self::$instance;
+    }
+
+    // Get the database connection
+    public function getConnection(): PDO
+    {
+        return $this->connection;
+    }
 
     public function __clone()
     {

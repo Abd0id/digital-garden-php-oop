@@ -1,10 +1,13 @@
-<?php 
+<?php
 require_once __DIR__ . "/../src/Service/GardenService.php";
 session_start();
 $themes = GardenService::getAllUserThemes($_SESSION['userId']);
-foreach($themes as $theme){
+$themesCount = count($themes);
+$notesCount = 0;
+foreach ($themes as $theme) {
   $notes = GardenService::getAllThemenotes($theme->getId());
   $theme->setNotes($notes);
+  $notessCount += count($notes);
 }
 ?>
 
@@ -47,7 +50,8 @@ foreach($themes as $theme){
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item text-danger" href="digital-garden-php-oop/includes/auth.php" name="deconnect"><i class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
+        <li><a class="dropdown-item text-danger" href="../includes/auth.php?deconnect=deconnect"><i
+              class="bi bi-box-arrow-right me-2"></i>Déconnexion</a></li>
       </ul>
     </div>
   </nav>
@@ -90,13 +94,13 @@ foreach($themes as $theme){
           <div class="col-sm-6 col-lg-3">
             <div class="stat-card">
               <p class="text-muted mb-1">Thèmes</p>
-              <h3 class="fw-bold">12</h3>
+              <h3 class="fw-bold"><?= $themesCount?></h3>
             </div>
           </div>
           <div class="col-sm-6 col-lg-3">
             <div class="stat-card">
               <p class="text-muted mb-1">Notes</p>
-              <h3 class="fw-bold">48</h3>
+              <h3 class="fw-bold"><?= $notesCount?></h3>
             </div>
           </div>
           <div class="col-sm-6 col-lg-3">
@@ -119,16 +123,16 @@ foreach($themes as $theme){
         <div class="row g-3 mb-4">
           <div class="col-md-6 col-lg-4">
             <?php foreach ($themes as $theme): ?>
-            <div style="background-color: <?=$theme->getColor()?>;" class="theme-card">
-              <div class="theme-header">
-                <h6 class="fw-bold mb-0"><?=$theme->getTitle()?></h6>
-                <div>
-                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+              <div style="background-color: <?= $theme->getColor() ?>;" class="theme-card">
+                <div class="theme-header">
+                  <h6 class="fw-bold mb-0"><?= $theme->getTitle() ?></h6>
+                  <div>
+                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                  </div>
                 </div>
+                <small class="text-muted"><?= count($theme->getNotes()) ?> Notes</small>
               </div>
-              <small class="text-muted"><?=count($theme->getNotes())?> Notes</small>
-            </div>
             <?php endforeach; ?>
           </div>
         </div>
@@ -136,17 +140,17 @@ foreach($themes as $theme){
         <h5 class="fw-bold mb-3">Notes</h5>
         <div class="row g-3">
           <div class="col-md-6">
-          <?php foreach ($themes as $theme): ?>
-            <?php foreach ($theme->getNotes() as $note): ?>
-            <div class="note-card">
-              <div class="d-flex justify-content-between mb-1">
-                <strong><?=$note->getTitle()?></strong>
-                <span class="badge bg-success">Web</span>
-              </div>
-              <p class="note-content"><?=$note->getContent()?></p>
-              <small class="text-muted">il y a 2h</small>
-            </div>
-             <?php endforeach; ?>
+            <?php foreach ($themes as $theme): ?>
+              <?php foreach ($theme->getNotes() as $note): ?>
+                <div class="note-card">
+                  <div class="d-flex justify-content-between mb-1">
+                    <strong><?= $note->getTitle() ?></strong>
+                    <span style="background-color: <?= $theme->getColor() ?>;" class="badge bg-success"><?= $theme->getTitle() ?></span>
+                  </div>
+                  <p class="note-content"><?= $note->getContent() ?></p>
+                  <small class="text-muted">Date de creation: <?= $note->getCreatedAt() ?></small>
+                </div>
+              <?php endforeach; ?>
             <?php endforeach; ?>
           </div>
         </div>

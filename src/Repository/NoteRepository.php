@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
-require_once __DIR__ ."/../Entity/Note.php";
+require_once __DIR__ . "/../Entity/Note.php";
 
 
 class NoteRepository
@@ -12,8 +12,32 @@ class NoteRepository
 
     public function __construct()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $this->conn = $db->getConnection();
+    }
+
+    public function findAllNotes()
+    {
+
+        $query = "SELECT * FROM notes WHERE 1=1";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            $notes = [];
+            foreach ($result as $obj) {
+                $note = new Note($obj->title, $obj->importance, $obj->content);
+                $note->setId($obj->id);
+                $note->setCreatedAt($obj->created_at);
+                array_push($notes, $note);
+            }
+            return $notes;
+        } catch (\Throwable $th) {
+            echo " themes search error ";
+        }
     }
 
     public function findAll(Theme $theme)
@@ -36,7 +60,7 @@ class NoteRepository
 
                 $note = new Note($obj->title, $obj->importance, $obj->content);
                 $note->setId($obj->id);
-                $theme->setCreatedAt($obj->created_at);
+                $note->setCreatedAt($obj->created_at);
                 array_push($notes, $note);
             }
 

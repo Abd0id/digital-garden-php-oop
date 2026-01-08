@@ -11,8 +11,34 @@ class ThemeRepository
 
     public function __construct()
     {
-        $db = new Database();
+        $db = Database::getInstance();
         $this->conn = $db->getConnection();
+    }
+
+    public function findAllThemes()
+    {
+
+        $query = "SELECT *
+        FROM themes
+        WHERE 1=1";
+
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $themes = [];
+            foreach ($result as $obj) {
+
+                $theme = new Theme($obj->title, $obj->color, $obj->limit);
+                $theme->setId($obj->id);
+                $theme->setCreatedAt($obj->created_at);
+                array_push($themes, $theme);
+            }
+
+            return $themes;
+        } catch (\Throwable $th) {
+            echo " themes search error ";
+        }
     }
 
     public function findAll(User $user)

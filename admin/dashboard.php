@@ -1,6 +1,9 @@
 <?php
 include "../src/Service/AdminService.php";
 
+$users = AdminService::findAllUsers();
+$statistics = AdminService::getStatistics();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -122,7 +125,7 @@ include "../src/Service/AdminService.php";
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="mb-1 opacity-75">Total Utilisateurs</p>
-                                        <h3 class="fw-bold mb-0">234</h3>
+                                        <h3 class="fw-bold mb-0"><?= $statistics["totalUsers"] ?></h3>
                                     </div>
                                     <div>
                                         <i class="bi bi-people fs-1 opacity-50"></i>
@@ -137,7 +140,7 @@ include "../src/Service/AdminService.php";
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="mb-1">En attente</p>
-                                        <h3 class="fw-bold mb-0">12</h3>
+                                        <h3 class="fw-bold mb-0"><?= $statistics["pendingUsers"] ?></h3>
                                     </div>
                                     <div>
                                         <i class="bi bi-hourglass-split fs-1 opacity-50"></i>
@@ -152,7 +155,7 @@ include "../src/Service/AdminService.php";
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="mb-1 opacity-75">Comptes actifs</p>
-                                        <h3 class="fw-bold mb-0">198</h3>
+                                        <h3 class="fw-bold mb-0"><?= $statistics["activeUsers"] ?></h3>
                                     </div>
                                     <div>
                                         <i class="bi bi-check-circle fs-1 opacity-50"></i>
@@ -167,7 +170,7 @@ include "../src/Service/AdminService.php";
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="mb-1 opacity-75">Comptes bloqués</p>
-                                        <h3 class="fw-bold mb-0">24</h3>
+                                        <h3 class="fw-bold mb-0"><?= $statistics["blockedUsers"] ?></h3>
                                     </div>
                                     <div>
                                         <i class="bi bi-x-circle fs-1 opacity-50"></i>
@@ -199,11 +202,7 @@ include "../src/Service/AdminService.php";
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $adminService = new AdminService();
-                                        $users = $adminService->findAllUsers();
-                                        foreach ($users as $user):
-                                            ?>
+                                        <?php foreach ($users as $user): ?>
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -299,7 +298,7 @@ include "../src/Service/AdminService.php";
                                 <div class="d-grid gap-2">
                                     <a href="users.php?status=pending" class="btn btn-outline-warning btn-lg">
                                         <i class="bi bi-hourglass-split me-2"></i>
-                                        Comptes en attente (12)
+                                        Comptes en attente (<?= $statistics["pendingUsers"] ?>)
                                     </a>
                                     <a href="users.php" class="btn btn-outline-primary btn-lg">
                                         <i class="bi bi-people me-2"></i>
@@ -329,7 +328,7 @@ include "../src/Service/AdminService.php";
     <script>
         // Confirmation for actions
         document.querySelectorAll('[title="Valider"]').forEach(btn => {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function() {
                 if (confirm('Êtes-vous sûr de vouloir valider ce compte ?')) {
                     // Add validation logic here
                     console.log('Compte validé');
@@ -338,7 +337,7 @@ include "../src/Service/AdminService.php";
         });
 
         document.querySelectorAll('[title="Bloquer"]').forEach(btn => {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function() {
                 if (confirm('Êtes-vous sûr de vouloir bloquer ce compte ?')) {
                     // Add blocking logic here
                     console.log('Compte bloqué');
